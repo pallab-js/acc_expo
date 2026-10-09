@@ -1,50 +1,73 @@
-# Welcome to your Expo app 👋
+# Ledger
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A local-first personal finance app built with Expo, React Native, and TypeScript. Track transactions, budgets, and recurring rules — all data stays on your device.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Transactions** — Add income/expense entries with categories, notes, and dates
+- **Budgets** — Set monthly limits per category with visual progress tracking
+- **Recurring Rules** — Weekly/monthly/yearly auto-generated entries (rent, salary, subscriptions)
+- **Dashboard** — Monthly overview with spending breakdown, budget health, and trends
+- **Export** — CSV export for external analysis
+- **Local-first** — No account required, data stored via AsyncStorage
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+- **Framework**: Expo 57 / React Native 0.86
+- **Routing**: Expo Router (file-based)
+- **State**: Zustand
+- **Storage**: @react-native-async-storage/async-storage
+- **Language**: TypeScript (strict)
+- **Testing**: Jest + jest-expo
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Getting Started
 
 ```bash
-npm run reset-project
+# Install dependencies
+npm install
+
+# Start development server
+npm start
+
+# Run on iOS/Android/Web
+npm run ios
+npm run android
+npm run web
+
+# Lint & typecheck
+npm run lint
+npx tsc --noEmit
+
+# Run tests
+npm test
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Project Structure
 
-## Learn more
+```
+src/
+├── app/                    # Expo Router screens
+│   ├── (tabs)/            # Tab navigation screens
+│   ├── transaction/[id]/  # Transaction form (new/edit)
+│   ├── budget/[id]/       # Budget form (new/edit)
+│   ├── recurring/[id]/    # Recurring rule form (new/edit)
+│   └── settings.tsx       # Settings & data management
+├── components/            # Reusable UI components
+├── hooks/                 # Custom React hooks (useForm, useConfirmDelete)
+├── lib/                   # Pure logic (dates, money, recurring, selectors, csv)
+├── store/                 # Zustand store with AsyncStorage persistence
+├── storage/               # Repository layer & seed data
+├── theme.ts               # Design tokens (colors, spacing, typography)
+└── types.ts               # TypeScript interfaces
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+## Data Model
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- **Transaction** — id, type (income/expense), amount (minor units), categoryId, date (ISO), note, recurringId, timestamps
+- **Budget** — id, categoryId, amount (minor units), month (yyyy-MM)
+- **RecurringRule** — id, type, amount, categoryId, frequency, startDate, note, active, lastGenerated, createdAt
+- **Settings** — currency, seeded
 
-## Join the community
+## License
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+MIT
