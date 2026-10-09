@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 
 import { colors, font, spacing, tabular } from '@/theme';
@@ -42,14 +42,15 @@ export function DonutChart({
       return { ...slice, length, offset };
     });
 
+  const svgAccessibilityProps = Platform.select({
+    ios: { accessibilityElementsHidden: true, importantForAccessibility: 'no-hide-descendants' as const },
+    android: { accessibilityElementsHidden: true, importantForAccessibility: 'no-hide-descendants' as const },
+    default: {},
+  });
+
   return (
     <View style={[styles.wrap, { width: size, height: size }]}>
-      <Svg
-        width={size}
-        height={size}
-        accessibilityElementsHidden={true}
-        importantForAccessibility="no"
-      >
+      <Svg width={size} height={size} {...svgAccessibilityProps}>
         <Circle
           cx={size / 2}
           cy={size / 2}
